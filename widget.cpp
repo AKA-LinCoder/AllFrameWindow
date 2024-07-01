@@ -8,6 +8,8 @@ Widget::Widget(QWidget *parent)
     this->setWindowFlags(Qt::FramelessWindowHint|Qt::WindowMinMaxButtonsHint);
      this->setAttribute(Qt::WA_Hover);
     initUi();
+
+    // connect(titlebar.mi)
 }
 
 Widget::~Widget() {}
@@ -25,11 +27,6 @@ void Widget::initUi(){
 void Widget::mousePressEvent(QMouseEvent *event)
 {
 
-    // mouse_pos = event->globalPosition().toPoint();
-    // window_pos = this->pos();
-    // diff_pos = mouse_pos - window_pos;
-
-
     if(event->button() == Qt::MouseButton::LeftButton)
     {
 
@@ -39,6 +36,5 @@ void Widget::mousePressEvent(QMouseEvent *event)
 void Widget::mouseMoveEvent(QMouseEvent *event)
 {
 
-    // QPointF pos = event->globalPosition();
-    // this->move(pos.toPoint() - diff_pos);
+
 }

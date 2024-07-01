@@ -38,4 +38,20 @@ void SelfToolBar::initUi()
     hlay->addWidget(closeBtn);
 
     hlay->setContentsMargins(5,5,5,5);
+
+    connect(maxBtn,&QPushButton::clicked,[=]{
+
+        if(this->window()->isMaximized())
+        {
+            this->window()->showNormal();
+        }
+        else
+        {
+             this->window()->showMaximized();
+        }
+    });
+
+    connect(minBtn,&QPushButton::clicked,[=]{
+        this->window()->showMinimized();
+    });
 }
