@@ -52,16 +52,20 @@ OBJECTS_DIR   = ./
 
 ####### Files
 
-SOURCES       = ../../main.cpp \
+SOURCES       = ../../border.cpp \
+		../../main.cpp \
 		../../resizeablewindow.cpp \
 		../../selftoolbar.cpp \
-		../../widget.cpp moc_resizeablewindow.cpp \
+		../../widget.cpp moc_border.cpp \
+		moc_resizeablewindow.cpp \
 		moc_selftoolbar.cpp \
 		moc_widget.cpp
-OBJECTS       = main.o \
+OBJECTS       = border.o \
+		main.o \
 		resizeablewindow.o \
 		selftoolbar.o \
 		widget.o \
+		moc_border.o \
 		moc_resizeablewindow.o \
 		moc_selftoolbar.o \
 		moc_widget.o
@@ -295,9 +299,11 @@ DIST          = /Users/estim/Qt/6.7.2/macos/mkspecs/features/spec_pre.prf \
 		/Users/estim/Qt/6.7.2/macos/mkspecs/features/exceptions.prf \
 		/Users/estim/Qt/6.7.2/macos/mkspecs/features/yacc.prf \
 		/Users/estim/Qt/6.7.2/macos/mkspecs/features/lex.prf \
-		../../../../AllFrameWindow.pro ../../resizeablewindow.h \
+		../../../../AllFrameWindow.pro ../../border.h \
+		../../resizeablewindow.h \
 		../../selftoolbar.h \
-		../../widget.h ../../main.cpp \
+		../../widget.h ../../border.cpp \
+		../../main.cpp \
 		../../resizeablewindow.cpp \
 		../../selftoolbar.cpp \
 		../../widget.cpp
@@ -818,8 +824,8 @@ dist: distdir FORCE
 distdir: FORCE
 	@test -d $(DISTDIR) || mkdir -p $(DISTDIR)
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
-	$(COPY_FILE) --parents ../../resizeablewindow.h ../../selftoolbar.h ../../widget.h $(DISTDIR)/
-	$(COPY_FILE) --parents ../../main.cpp ../../resizeablewindow.cpp ../../selftoolbar.cpp ../../widget.cpp $(DISTDIR)/
+	$(COPY_FILE) --parents ../../border.h ../../resizeablewindow.h ../../selftoolbar.h ../../widget.h $(DISTDIR)/
+	$(COPY_FILE) --parents ../../border.cpp ../../main.cpp ../../resizeablewindow.cpp ../../selftoolbar.cpp ../../widget.cpp $(DISTDIR)/
 
 
 clean: compiler_clean 
@@ -848,9 +854,19 @@ benchmark: first
 
 compiler_rcc_make_all:
 compiler_rcc_clean:
-compiler_moc_header_make_all: moc_resizeablewindow.cpp moc_selftoolbar.cpp moc_widget.cpp
+compiler_moc_header_make_all: moc_border.cpp moc_resizeablewindow.cpp moc_selftoolbar.cpp moc_widget.cpp
 compiler_moc_header_clean:
-	-$(DEL_FILE) moc_resizeablewindow.cpp moc_selftoolbar.cpp moc_widget.cpp
+	-$(DEL_FILE) moc_border.cpp moc_resizeablewindow.cpp moc_selftoolbar.cpp moc_widget.cpp
+moc_border.cpp: ../../border.h \
+		/Users/estim/Qt/6.7.2/macos/lib/QtWidgets.framework/Headers/QWidget \
+		/Users/estim/Qt/6.7.2/macos/lib/QtWidgets.framework/Headers/qwidget.h \
+		/Users/estim/Qt/6.7.2/macos/lib/QtGui.framework/Headers/QMouseEvent \
+		/Users/estim/Qt/6.7.2/macos/lib/QtGui.framework/Headers/qevent.h \
+		/Users/estim/Qt/6.7.2/macos/lib/QtGui.framework/Headers/QWindow \
+		/Users/estim/Qt/6.7.2/macos/lib/QtGui.framework/Headers/qwindow.h \
+		/Users/estim/Qt/6.7.2/macos/libexec/moc
+	/Users/estim/Qt/6.7.2/macos/libexec/moc $(DEFINES) -D__APPLE__ -D__GNUC__=4 -D__APPLE_CC__ -D__cplusplus=199711L -D__APPLE_CC__=6000 -D__clang__ -D__clang_major__=15 -D__clang_minor__=0 -D__clang_patchlevel__=0 -D__GNUC__=4 -D__GNUC_MINOR__=2 -D__GNUC_PATCHLEVEL__=1 -I/Users/estim/Qt/6.7.2/macos/mkspecs/macx-clang -I/Users/estim/Desktop/Lin_coding/2024/qt/AllFrameWindow -I/Users/estim/Qt/6.7.2/macos/lib/QtWidgets.framework/Headers -I/Users/estim/Qt/6.7.2/macos/lib/QtGui.framework/Headers -I/Users/estim/Qt/6.7.2/macos/lib/QtCore.framework/Headers -I. -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.5.sdk/usr/include/c++/v1 -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/15.0.0/include -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.5.sdk/usr/include -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include -F/Users/estim/Qt/6.7.2/macos/lib ../../border.h -o moc_border.cpp
+
 moc_resizeablewindow.cpp: ../../resizeablewindow.h \
 		/Users/estim/Qt/6.7.2/macos/lib/QtWidgets.framework/Headers/QWidget \
 		/Users/estim/Qt/6.7.2/macos/lib/QtWidgets.framework/Headers/qwidget.h \
@@ -880,6 +896,11 @@ moc_widget.cpp: ../../widget.h \
 		/Users/estim/Qt/6.7.2/macos/lib/QtWidgets.framework/Headers/qlabel.h \
 		/Users/estim/Qt/6.7.2/macos/lib/QtWidgets.framework/Headers/QPushButton \
 		/Users/estim/Qt/6.7.2/macos/lib/QtWidgets.framework/Headers/qpushbutton.h \
+		../../border.h \
+		/Users/estim/Qt/6.7.2/macos/lib/QtGui.framework/Headers/QWindow \
+		/Users/estim/Qt/6.7.2/macos/lib/QtGui.framework/Headers/qwindow.h \
+		/Users/estim/Qt/6.7.2/macos/lib/QtWidgets.framework/Headers/QGridLayout \
+		/Users/estim/Qt/6.7.2/macos/lib/QtWidgets.framework/Headers/qgridlayout.h \
 		/Users/estim/Qt/6.7.2/macos/libexec/moc
 	/Users/estim/Qt/6.7.2/macos/libexec/moc $(DEFINES) -D__APPLE__ -D__GNUC__=4 -D__APPLE_CC__ -D__cplusplus=199711L -D__APPLE_CC__=6000 -D__clang__ -D__clang_major__=15 -D__clang_minor__=0 -D__clang_patchlevel__=0 -D__GNUC__=4 -D__GNUC_MINOR__=2 -D__GNUC_PATCHLEVEL__=1 -I/Users/estim/Qt/6.7.2/macos/mkspecs/macx-clang -I/Users/estim/Desktop/Lin_coding/2024/qt/AllFrameWindow -I/Users/estim/Qt/6.7.2/macos/lib/QtWidgets.framework/Headers -I/Users/estim/Qt/6.7.2/macos/lib/QtGui.framework/Headers -I/Users/estim/Qt/6.7.2/macos/lib/QtCore.framework/Headers -I. -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.5.sdk/usr/include/c++/v1 -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/15.0.0/include -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.5.sdk/usr/include -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include -F/Users/estim/Qt/6.7.2/macos/lib ../../widget.h -o moc_widget.cpp
 
@@ -901,6 +922,15 @@ compiler_clean: compiler_moc_header_clean
 
 ####### Compile
 
+border.o: ../../border.cpp ../../border.h \
+		/Users/estim/Qt/6.7.2/macos/lib/QtWidgets.framework/Headers/QWidget \
+		/Users/estim/Qt/6.7.2/macos/lib/QtWidgets.framework/Headers/qwidget.h \
+		/Users/estim/Qt/6.7.2/macos/lib/QtGui.framework/Headers/QMouseEvent \
+		/Users/estim/Qt/6.7.2/macos/lib/QtGui.framework/Headers/qevent.h \
+		/Users/estim/Qt/6.7.2/macos/lib/QtGui.framework/Headers/QWindow \
+		/Users/estim/Qt/6.7.2/macos/lib/QtGui.framework/Headers/qwindow.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o border.o ../../border.cpp
+
 main.o: ../../main.cpp ../../widget.h \
 		/Users/estim/Qt/6.7.2/macos/lib/QtWidgets.framework/Headers/QWidget \
 		/Users/estim/Qt/6.7.2/macos/lib/QtWidgets.framework/Headers/qwidget.h \
@@ -912,6 +942,11 @@ main.o: ../../main.cpp ../../widget.h \
 		/Users/estim/Qt/6.7.2/macos/lib/QtWidgets.framework/Headers/qlabel.h \
 		/Users/estim/Qt/6.7.2/macos/lib/QtWidgets.framework/Headers/QPushButton \
 		/Users/estim/Qt/6.7.2/macos/lib/QtWidgets.framework/Headers/qpushbutton.h \
+		../../border.h \
+		/Users/estim/Qt/6.7.2/macos/lib/QtGui.framework/Headers/QWindow \
+		/Users/estim/Qt/6.7.2/macos/lib/QtGui.framework/Headers/qwindow.h \
+		/Users/estim/Qt/6.7.2/macos/lib/QtWidgets.framework/Headers/QGridLayout \
+		/Users/estim/Qt/6.7.2/macos/lib/QtWidgets.framework/Headers/qgridlayout.h \
 		/Users/estim/Qt/6.7.2/macos/lib/QtWidgets.framework/Headers/QApplication \
 		/Users/estim/Qt/6.7.2/macos/lib/QtWidgets.framework/Headers/qapplication.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o main.o ../../main.cpp
@@ -945,9 +980,19 @@ widget.o: ../../widget.cpp ../../widget.h \
 		/Users/estim/Qt/6.7.2/macos/lib/QtWidgets.framework/Headers/qlabel.h \
 		/Users/estim/Qt/6.7.2/macos/lib/QtWidgets.framework/Headers/QPushButton \
 		/Users/estim/Qt/6.7.2/macos/lib/QtWidgets.framework/Headers/qpushbutton.h \
+		../../border.h \
+		/Users/estim/Qt/6.7.2/macos/lib/QtGui.framework/Headers/QWindow \
+		/Users/estim/Qt/6.7.2/macos/lib/QtGui.framework/Headers/qwindow.h \
+		/Users/estim/Qt/6.7.2/macos/lib/QtWidgets.framework/Headers/QGridLayout \
+		/Users/estim/Qt/6.7.2/macos/lib/QtWidgets.framework/Headers/qgridlayout.h \
 		/Users/estim/Qt/6.7.2/macos/lib/QtWidgets.framework/Headers/QVBoxLayout \
-		/Users/estim/Qt/6.7.2/macos/lib/QtWidgets.framework/Headers/qboxlayout.h
+		/Users/estim/Qt/6.7.2/macos/lib/QtWidgets.framework/Headers/qboxlayout.h \
+		/Users/estim/Qt/6.7.2/macos/lib/QtCore.framework/Headers/QDebug \
+		/Users/estim/Qt/6.7.2/macos/lib/QtCore.framework/Headers/qdebug.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o widget.o ../../widget.cpp
+
+moc_border.o: moc_border.cpp 
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_border.o moc_border.cpp
 
 moc_resizeablewindow.o: moc_resizeablewindow.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_resizeablewindow.o moc_resizeablewindow.cpp
