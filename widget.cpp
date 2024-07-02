@@ -166,6 +166,11 @@ void Widget::mouseMoveEvent(QMouseEvent *event)
 
     QPoint globalPos = event->globalPosition().toPoint();
 
+    QRect rect = this->rect();
+    //当前窗口左上角基于屏幕左上角的位置
+    QPoint topLeft = mapToGlobal(rect.topLeft());
+    QPoint bottomRight = mapToGlobal(rect.bottomRight());
+
     //鼠标未按下
     if(!isLeftPressed){
         this->setCursorShape(globalPos);
@@ -177,7 +182,63 @@ void Widget::mouseMoveEvent(QMouseEvent *event)
         return;
     }
     //缩放
+    //缩放
+    QRect rMove(topLeft,bottomRight);
 
+    switch (location) {
+    case TOP:
+        //如果不加判断，窗口达到最小后，鼠标会向下推走
+        if(bottomRight.y()-globalPos.y() > this->minimumHeight())
+        {
+            rMove.setY(globalPos.y());
+        }
+        break;
+    case BOTTOM:
+        rMove.setHeight(globalPos.y()-topLeft.y());
+        break;
+    case LEFT:
+        //防止窗口向右移动
+        if(bottomRight.x() - globalPos.x() > this->minimumWidth())
+        {
+            rMove.setX(globalPos.x());
+        }
+        break;
+    case RIGHT:
+        rMove.setWidth(globalPos.x() - topLeft.x());
+        break;
+    case TOP_LEFT:
+        if(bottomRight.y()-globalPos.y() > this->minimumHeight())
+        {
+            rMove.setY(globalPos.y());
+        }
+        if(bottomRight.x() - globalPos.x() > this->minimumWidth())
+        {
+            rMove.setX(globalPos.x());
+        }
+        break;
+    case TOP_RIGHT:
+        if(bottomRight.y()-globalPos.y() > this->minimumHeight())
+        {
+            rMove.setY(globalPos.y());
+        }
+        rMove.setWidth(globalPos.x() - topLeft.x());
+        break;
+    case BOTTOM_LEFT:
+        rMove.setHeight(globalPos.y()-topLeft.y());
+        if(bottomRight.x() - globalPos.x() > this->minimumWidth())
+        {
+            rMove.setX(globalPos.x());
+        }
+        break;
+    case BOTTOM_RIGHT:
+        rMove.setHeight(globalPos.y()-topLeft.y());
+        rMove.setWidth(globalPos.x() - topLeft.x());
+        break;
+    default:
+        break;
+    }
+
+    this->setGeometry(rMove);
 
 }
 
